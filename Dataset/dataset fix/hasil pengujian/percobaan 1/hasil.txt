@@ -1,0 +1,41 @@
+testing jst..
+
+TP: 0.0
+TN: 0.0
+FP: 0.0
+FN: 60.0
+Akurasi: 0.0
+Presisi: NaN
+Recall: 0.0
+F-Measure: NaN
+testing Bayes..
+
+TP: 43.0
+TN: 0.0
+FP: 0.0
+FN: 17.0
+Akurasi: 0.7166666666666667
+Presisi: 1.0
+Recall: 0.7166666666666667
+F-Measure: 0.8349514563106796
+testing svm..
+
+TP: 48.0
+TN: 0.0
+FP: 0.0
+FN: 12.0
+Akurasi: 0.8
+Presisi: 1.0
+Recall: 0.8
+F-Measure: 0.888888888888889
+testing knn..
+
+TP: 28.0
+TN: 0.0
+FP: 0.0
+FN: 32.0
+Akurasi: 0.4666666666666667
+Presisi: 1.0
+Recall: 0.4666666666666667
+F-Measure: 0.6363636363636364
+BUILD SUCCESSFUL (total time: 152 minutes 22 seconds)

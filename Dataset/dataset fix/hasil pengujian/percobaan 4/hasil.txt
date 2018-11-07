@@ -1,0 +1,61 @@
+hasil SVM: 
+
+Correctly Classified Instances         454               90.8    %
+Incorrectly Classified Instances        46                9.2    %
+Kappa statistic                          0.8061
+Mean absolute error                      0.092 
+Root mean squared error                  0.3033
+Relative absolute error                 19.1314 %
+Root relative squared error             61.8618 %
+Total Number of Instances              500     
+
+Presisi: 91.8918918918919%
+Recall: 84.5771144278607%
+F-Measure: 88.08290155440415%
+
+hasil Bayes: 
+
+Correctly Classified Instances         456               91.2    %
+Incorrectly Classified Instances        44                8.8    %
+Kappa statistic                          0.8179
+Mean absolute error                      0.088 
+Root mean squared error                  0.2966
+Relative absolute error                 18.2996 %
+Root relative squared error             60.5016 %
+Total Number of Instances              500     
+
+Presisi: 87.92270531400966%
+Recall: 90.54726368159204%
+F-Measure: 89.2156862745098%
+
+hasil KNN: 
+
+Correctly Classified Instances         350               70      %
+Incorrectly Classified Instances       150               30      %
+Kappa statistic                          0.4424
+Mean absolute error                      0.3792
+Root mean squared error                  0.4452
+Relative absolute error                 78.8587 %
+Root relative squared error             90.8066 %
+Total Number of Instances              500     
+
+Presisi: 57.34870317002881%
+Recall: 99.00497512437812%
+F-Measure: 72.62773722627736%
+
+hasil JST: 
+
+Correctly Classified Instances         289               57.8    %
+Incorrectly Classified Instances       211               42.2    %
+Kappa statistic                         -0.0009
+Mean absolute error                      0.4717
+Root mean squared error                  0.4999
+Relative absolute error                 98.0818 %
+Root relative squared error            101.9632 %
+Total Number of Instances              500     
+
+Presisi: 40.0%
+Recall: 9.950248756218906%
+F-Measure: 15.936254980079683%
+
+BUILD SUCCESSFUL (total time: 99 minutes 3 seconds)

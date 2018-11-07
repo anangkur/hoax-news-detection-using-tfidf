@@ -1,0 +1,41 @@
+hasil SVM: 
+
+Correctly Classified Instances         173               86.5    %
+Incorrectly Classified Instances        27               13.5    %
+Kappa statistic                          0.4727
+Mean absolute error                      0.135 
+Root mean squared error                  0.3674
+Relative absolute error                 42.7156 %
+Root relative squared error             92.718  %
+Total Number of Instances              200     
+
+
+BUILD SUCCESSFUL (total time: 8 seconds)
+
+hasil Bayes: 
+
+Correctly Classified Instances         175               87.5    %
+Incorrectly Classified Instances        25               12.5    %
+Kappa statistic                          0.4873
+Mean absolute error                      0.125 
+Root mean squared error                  0.3536
+Relative absolute error                 39.5515 %
+Root relative squared error             89.2179 %
+Total Number of Instances              200     
+
+
+BUILD SUCCESSFUL (total time: 5 seconds)
+
+hasil KNN: 
+
+Correctly Classified Instances         168               84      %
+Incorrectly Classified Instances        32               16      %
+Kappa statistic                          0.2605
+Mean absolute error                      0.1637
+Root mean squared error                  0.3978
+Relative absolute error                 51.8081 %
+Root relative squared error            100.392  %
+Total Number of Instances              200     
+
+
+BUILD SUCCESSFUL (total time: 4 seconds)

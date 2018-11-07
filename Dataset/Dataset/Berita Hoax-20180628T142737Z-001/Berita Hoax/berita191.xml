@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<newsitem itemid="1" id="root" date="1996-08-21" xml:lang="en">
+<title>Awas! Pesan '@[4:0]' di Facebook Ternyata Hoax</title>
+	<text>
+		<p>CNN Indonesia -- Kemunculan fitur '@' pada layanan Facebook dan WhatsApp sejatinya untuk memudahkan pengguna memanggil atau mention teman. Namun cara tersebut kini dipakai sebagai celah untuk menyebarkan informasi palsu dan salah kaprah.</p>
+		<p>Pada layanan WhatsApp fitur mention kerap dipakai untuk menyebarkan broadcast yang salah kaprah.</p>
+		<p>Jika Anda mendapati pesan yang berisi perintah untuk mengetikkan 'Q*@' untuk melihat foto profil setiap anggota grup, dapat dipastikan hal tersebut salah besar. Pasalnya, untuk bisa melihat siapa saja anggota grup lengkap dengan foto profilnya cukup melihat dari group info.</p>
+		<p>WhatsApp memang menyediakan '@'  sebagai shortcut untuk memudahkan anggota grup menyolek temannya di grup yang sama. Dengan kata lain fitur ini sebenarnya memudahkan anggota grup yang pasif bisa mendapatkan notifikasi pesan masuk.</p>
+		<p>Sementara fitur serupa yang disediakan Facebok belakangan muncul broadcast yang meminta pengguna untuk mengetikkan satu kode khusus.</p>
+		<p>Broadcast hoax akan meminta pengguna mengetikkan kode @[4:0] untuk memunculkan nama Mark Zuckerberg yang mengklaim untuk mengetahui keamanan akun.</p>
+		<p>Di awal kemnuculan pesan ini, ketika pengguna mengetikkan kode tersebut di kolom komentar memang akan otomatis meencolek Zuck sebagai pemilik akun. Hanya saja pernyataan berikutnya yang harus diwaspadai karena bisa membuat banyak pengguna merasa waswas dengan keamanan akun Facebook mereka.</p>
+		<p>"Jika tidak muncul artinya anda perlu mengatur setting-an keamanan akun anda". Pesan yang bernada menakut-nakuti itu tak lain memberi perintah agar anda terbujuk melakukan hal serupa.</p>
+		<p>Memang sistem program komputer hanya mengenal algoritma berupa angka, dengan kata lain setiap pengguna Facebook memliki identitas berupa kombinasi angka tertentu. Sementara angka 4 merujuk pada akun Zuck, pendiri sekaligus CEO Facebook.</p>
+		<p>Ketika pengguna mengetikkan '@'- yang artinya perintah untuk mencolek (mention)- kemudian menjadi viral karena Zuck akan mendapatkan notifikasi dari jutaan pengguna Facebook yang termakan broadcast palsu tersebut.</p>
+		<p>Perusahaan antivirus Vaksincom mengamati saat ini programmer Facebook sudah mengakali viral kode tersebut dengan menambahkan spasi antara '@'. Sehingga saat ada pengguna Facebook yang mengetikkan kode tersebut, maka fungsi mention tidak bisa lagi bekerja.</p>
+	</text>
+</newsitem>

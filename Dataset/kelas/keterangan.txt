@@ -1,0 +1,3 @@
+keterangan dataset :
+datatrain = hoax : 160, non-hoax : 80
+datatest = hoax : 40, non-hoax : 20
