@@ -700,11 +700,12 @@ public class Ta {
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("10");
+        modelJST.setLearningRate(0.1);
         
         NaiveBayes modelBayes = new NaiveBayes();
         
         IBk modelKNN = new IBk();
-        modelKNN.setKNN(7);
+        modelKNN.setKNN(9);
         
         ConverterUtils.DataSource sourceSVM = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
         Instances testdataSVM = sourceSVM.getDataSet();

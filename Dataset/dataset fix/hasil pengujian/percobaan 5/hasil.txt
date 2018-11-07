@@ -1,0 +1,61 @@
+hasil SVM: 
+
+Correctly Classified Instances         454               90.8    %
+Incorrectly Classified Instances        46                9.2    %
+Kappa statistic                          0.8061
+Mean absolute error                      0.092 
+Root mean squared error                  0.3033
+Relative absolute error                 19.1314 %
+Root relative squared error             61.8618 %
+Total Number of Instances              500     
+
+Presisi: 91.8918918918919%
+Recall: 84.5771144278607%
+F-Measure: 88.08290155440415%
+
+hasil Bayes: 
+
+Correctly Classified Instances         456               91.2    %
+Incorrectly Classified Instances        44                8.8    %
+Kappa statistic                          0.8179
+Mean absolute error                      0.088 
+Root mean squared error                  0.2966
+Relative absolute error                 18.2996 %
+Root relative squared error             60.5016 %
+Total Number of Instances              500     
+
+Presisi: 87.92270531400966%
+Recall: 90.54726368159204%
+F-Measure: 89.2156862745098%
+
+hasil KNN: 
+
+Correctly Classified Instances         343               68.6    %
+Incorrectly Classified Instances       157               31.4    %
+Kappa statistic                          0.4177
+Mean absolute error                      0.3858
+Root mean squared error                  0.4409
+Relative absolute error                 80.2342 %
+Root relative squared error             89.9285 %
+Total Number of Instances              500     
+
+Presisi: 56.285714285714285%
+Recall: 98.00995024875621%
+F-Measure: 71.50635208711434%
+
+hasil JST: 
+
+Correctly Classified Instances         299               59.8    %
+Incorrectly Classified Instances       201               40.2    %
+Kappa statistic                          0     
+Mean absolute error                      0.4794
+Root mean squared error                  0.4911
+Relative absolute error                 99.6959 %
+Root relative squared error            100.1643 %
+Total Number of Instances              500     
+
+Presisi: 0.0%
+Recall: 0.0%
+F-Measure: 0.0%
+
+BUILD SUCCESSFUL (total time: 106 minutes 56 seconds)

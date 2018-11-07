@@ -30,7 +30,7 @@ public class FileDatabase implements Serializable{
     
     public void saveFileModelJST(MultilayerPerceptron modelJST){
         try{
-            FileOutputStream fos = new FileOutputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_lemma.txt");
+            FileOutputStream fos = new FileOutputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_lemma.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(modelJST);
             oos.flush();
@@ -42,7 +42,7 @@ public class FileDatabase implements Serializable{
     public MultilayerPerceptron loadFileModelJST(){
         MultilayerPerceptron temp=null;
         try{
-            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_lemma.txt");
+            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_lemma.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (MultilayerPerceptron) ois.readObject();
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class FileDatabase implements Serializable{
     
     public void saveFileModelKNN(IBk modelKNN){
         try{
-            FileOutputStream fos = new FileOutputStream("Dataset/dataset fix/model/knn/modelknn_7_lemma.txt");
+            FileOutputStream fos = new FileOutputStream("Dataset/dataset fix/model/knn/modelknn_9_lemma.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(modelKNN);
             oos.flush();
@@ -111,7 +111,7 @@ public class FileDatabase implements Serializable{
     public IBk loadFileModelKNN(){
         IBk temp=null;
         try{
-            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/knn/modelknn_7_lemma.txt");
+            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/knn/modelknn_9_lemma.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (IBk) ois.readObject();
         } catch (Exception e) {
