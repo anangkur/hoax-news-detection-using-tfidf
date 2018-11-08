@@ -35,6 +35,9 @@ import jsastrawi.morphology.Lemmatizer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import weka.attributeSelection.AttributeSelection;
+import weka.attributeSelection.InfoGainAttributeEval;
+import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
@@ -693,79 +696,87 @@ public class Ta {
         System.out.println("Cross Validate..");
         System.out.println("");
         
-        SMO modelSVM = new SMO();
-        PolyKernel polyKernel = new PolyKernel();
+//        SMO modelSVM = new SMO();
+//        PolyKernel polyKernel = new PolyKernel();
 
-        modelSVM.setKernel(polyKernel);
+//        modelSVM.setKernel(polyKernel);
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("10");
-        modelJST.setLearningRate(0.1);
+        modelJST.setLearningRate(0.01);
         
-        NaiveBayes modelBayes = new NaiveBayes();
-        
-        IBk modelKNN = new IBk();
-        modelKNN.setKNN(9);
+//        NaiveBayes modelBayes = new NaiveBayes();
+//        
+//        IBk modelKNN = new IBk();
+//        modelKNN.setKNN(9);
         
         ConverterUtils.DataSource sourceSVM = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testdataSVM = sourceSVM.getDataSet();
-        testdataSVM.setClassIndex(testdataSVM.numAttributes() - 1);
-        
-        ConverterUtils.DataSource sourceJST = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testdataJST = sourceJST.getDataSet();
-        testdataJST.setClassIndex(testdataJST.numAttributes() - 1);
-        
-        ConverterUtils.DataSource sourceBayes = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testdataBayes = sourceBayes.getDataSet();
-        testdataBayes.setClassIndex(testdataBayes.numAttributes() - 1);
-        
-        ConverterUtils.DataSource sourceKNN = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testdataKNN = sourceKNN.getDataSet();
-        testdataKNN.setClassIndex(testdataKNN.numAttributes() - 1);
+        Instances testData = sourceSVM.getDataSet();
+        System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
+        testData = informationGain(testData);
+        System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
+        testData.setClassIndex(testData.numAttributes() - 1);
         
         int folds = fold;
         
-        Evaluation evaluationSVM = new Evaluation(testdataSVM);
-        Evaluation evaluationJST = new Evaluation(testdataJST);
-        Evaluation evaluationBayes = new Evaluation(testdataBayes);
-        Evaluation evaluationKNN = new Evaluation(testdataKNN);
+//        Evaluation evaluationSVM = new Evaluation(testData);
+//        Evaluation evaluationBayes = new Evaluation(testData);
+//        Evaluation evaluationKNN = new Evaluation(testData);
+        Evaluation evaluationJST = new Evaluation(testData);
         
         FileDatabase fileDatabase = new FileDatabase();
 
-        System.out.println("hasil SVM: ");
-        evaluationSVM.crossValidateModel(modelSVM, testdataSVM, folds, new Random(1));
-        System.out.println(evaluationSVM.toSummaryString());
-        System.out.println("Presisi: "+String.valueOf(evaluationSVM.precision(0)*100)+"%");
-        System.out.println("Recall: "+String.valueOf(evaluationSVM.recall(0)*100)+"%");
-        System.out.println("F-Measure: "+String.valueOf(evaluationSVM.fMeasure(0)*100)+"%");
-        System.out.println("");
-        fileDatabase.saveFileModelSVM(modelSVM);
-        
-        System.out.println("hasil Bayes: ");
-        evaluationBayes.crossValidateModel(modelBayes, testdataBayes, folds, new Random(1));
-        System.out.println(evaluationBayes.toSummaryString());
-        System.out.println("Presisi: "+String.valueOf(evaluationBayes.precision(0)*100)+"%");
-        System.out.println("Recall: "+String.valueOf(evaluationBayes.recall(0)*100)+"%");
-        System.out.println("F-Measure: "+String.valueOf(evaluationBayes.fMeasure(0)*100)+"%");
-        System.out.println("");
-        fileDatabase.saveFileModelBayes(modelBayes);
-        
-        System.out.println("hasil KNN: ");
-        evaluationKNN.crossValidateModel(modelKNN, testdataKNN, folds, new Random(1));
-        System.out.println(evaluationKNN.toSummaryString());
-        System.out.println("Presisi: "+String.valueOf(evaluationKNN.precision(0)*100)+"%");
-        System.out.println("Recall: "+String.valueOf(evaluationKNN.recall(0)*100)+"%");
-        System.out.println("F-Measure: "+String.valueOf(evaluationKNN.fMeasure(0)*100)+"%");
-        System.out.println("");
-        fileDatabase.saveFileModelKNN(modelKNN);
+//        System.out.println("hasil SVM: ");
+//        evaluationSVM.crossValidateModel(modelSVM, testData, folds, new Random(1));
+//        System.out.println(evaluationSVM.toSummaryString());
+//        System.out.println("Presisi: "+String.valueOf(evaluationSVM.precision(0)*100)+"%");
+//        System.out.println("Recall: "+String.valueOf(evaluationSVM.recall(0)*100)+"%");
+//        System.out.println("F-Measure: "+String.valueOf(evaluationSVM.fMeasure(0)*100)+"%");
+//        System.out.println("");
+//        fileDatabase.saveFileModelSVM(modelSVM);
+//        
+//        System.out.println("hasil Bayes: ");
+//        evaluationBayes.crossValidateModel(modelBayes, testData, folds, new Random(1));
+//        System.out.println(evaluationBayes.toSummaryString());
+//        System.out.println("Presisi: "+String.valueOf(evaluationBayes.precision(0)*100)+"%");
+//        System.out.println("Recall: "+String.valueOf(evaluationBayes.recall(0)*100)+"%");
+//        System.out.println("F-Measure: "+String.valueOf(evaluationBayes.fMeasure(0)*100)+"%");
+//        System.out.println("");
+//        fileDatabase.saveFileModelBayes(modelBayes);
+//        
+//        System.out.println("hasil KNN: ");
+//        evaluationKNN.crossValidateModel(modelKNN, testData, folds, new Random(1));
+//        System.out.println(evaluationKNN.toSummaryString());
+//        System.out.println("Presisi: "+String.valueOf(evaluationKNN.precision(0)*100)+"%");
+//        System.out.println("Recall: "+String.valueOf(evaluationKNN.recall(0)*100)+"%");
+//        System.out.println("F-Measure: "+String.valueOf(evaluationKNN.fMeasure(0)*100)+"%");
+//        System.out.println("");
+//        fileDatabase.saveFileModelKNN(modelKNN);
         
         System.out.println("hasil JST: ");
-        evaluationJST.crossValidateModel(modelJST, testdataJST, folds, new Random(1));
+        evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
         System.out.println(evaluationJST.toSummaryString());
         System.out.println("Presisi: "+String.valueOf(evaluationJST.precision(0)*100)+"%");
         System.out.println("Recall: "+String.valueOf(evaluationJST.recall(0)*100)+"%");
         System.out.println("F-Measure: "+String.valueOf(evaluationJST.fMeasure(0)*100)+"%");
         System.out.println("");
         fileDatabase.saveFileModelJST(modelJST);
+    }
+    
+    private static Instances informationGain(Instances data) throws Exception{
+        InfoGainAttributeEval eval = new InfoGainAttributeEval();
+        Ranker search = new Ranker();
+        
+        search.setOptions(new String[] { "-T", "0.029" });
+        
+	AttributeSelection attSelect = new AttributeSelection();
+	attSelect.setEvaluator(eval);
+	attSelect.setSearch(search);
+        
+        attSelect.SelectAttributes(data);
+        
+        data = attSelect.reduceDimensionality(data);
+	
+	return data;
     }
 }
