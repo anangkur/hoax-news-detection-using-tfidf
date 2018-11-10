@@ -696,6 +696,13 @@ public class Ta {
         System.out.println("Cross Validate..");
         System.out.println("");
         
+        ConverterUtils.DataSource sourceSVM = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
+        Instances testData = sourceSVM.getDataSet();
+        System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
+        testData = informationGain(testData);
+        System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
+        testData.setClassIndex(testData.numAttributes() - 1);
+        
 //        SMO modelSVM = new SMO();
 //        PolyKernel polyKernel = new PolyKernel();
 
@@ -704,18 +711,12 @@ public class Ta {
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("10");
         modelJST.setLearningRate(0.01);
+//        modelJST.setGUI(true);
         
 //        NaiveBayes modelBayes = new NaiveBayes();
 //        
 //        IBk modelKNN = new IBk();
 //        modelKNN.setKNN(9);
-        
-        ConverterUtils.DataSource sourceSVM = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testData = sourceSVM.getDataSet();
-        System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
-        testData = informationGain(testData);
-        System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
-        testData.setClassIndex(testData.numAttributes() - 1);
         
         int folds = fold;
         
