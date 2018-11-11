@@ -78,36 +78,15 @@ public class Ta {
     private static ArrayList<ArrayList<String>> kamusKata = new ArrayList<>();
     
     public static void main(String[] args) throws IOException, Exception {
-//        listStopWord = loadStopWord("Dataset/id.stopwords.02.01.2016.txt");
-//        kamusKataDasar = loadKamusKataDasar();
+        listStopWord = loadStopWord("Dataset/id.stopwords.02.01.2016.txt");
+        kamusKataDasar = loadKamusKataDasar();
         
-//        preProcessingDataTrain("Dataset/dataset fix/Datatrain");
-//        preProcessingDataTest("Dataset/dataset fix/Datatest");   
+        preProcessingDataTrain("Dataset/dataset fix/Datatrain");
+        preProcessingDataTest("Dataset/dataset fix/Datatest");   
         
-//        hitungTfIdf();
+        hitungTfIdf();
         
-//        modelJST = trainingProcessJST();
-//        FileDatabase filedatabaseJST = new FileDatabase();
-//        filedatabaseJST.saveFileModelJST(modelJST);
-        
-//        modelBayes = trainingProcessBayes();
-//        FileDatabase filedatabaseBayes = new FileDatabase();
-//        filedatabaseBayes.saveFileModelBayes(modelBayes);
-        
-//        modelSVM = trainingProcessSVM();
-//        FileDatabase filedatabaseSVM = new FileDatabase();
-//        filedatabaseSVM.saveFileModelSVM(modelSVM);
-        
-//        modelKNN = trainingProcessKNN();
-//        FileDatabase filedatabaseKNN = new FileDatabase();
-//        filedatabaseKNN.saveFileModelKNN(modelKNN);
-        
-//        predictionJST();
-//        predictionBayes();
-//        predictionSVM();
-//        predictionKNN();
-        
-        crossValidate(10);
+//        crossValidate(10);
     }
     
     public static ArrayList<String> loadStopWord(String namaFile){
@@ -235,12 +214,12 @@ public class Ta {
 //        System.out.println("        -------------------------");
 //        
 //        System.out.println("        Lemmatisasi..");
-        ArrayList<String> resLemmatisasi = lemmatisasiSastrawi(resRemoveStopword, kamusKataDasar);
+//        ArrayList<String> resLemmatisasi = lemmatisasiSastrawi(resRemoveStopword, kamusKataDasar);
 //        System.out.println("        hasil lemmatisasi: ");
 //        System.out.println("        " + resLemmatisasi.toString());
 //        System.out.println("        -------------------------");
         
-        return resLemmatisasi;
+        return resRemoveStopword;
     }
     
     private static String[] tokenisasi(String s){
@@ -262,22 +241,6 @@ public class Ta {
     
     private static String removePunctuation(String s){
         return s.trim().replaceAll("[^a-zA-Z]", " ");
-    }
-    
-    private static ArrayList<String> stemmerNaziefAdriani(String[] resTokenisasi){
-        IndonesianStemmer stemmer = new IndonesianStemmer();
-        ArrayList<String> listStemming = new ArrayList<>();
-        int size = resTokenisasi.length;
-        for (int i = 1; i < size; i++){
-            String stem;
-            if (stemmer.findRootWord(resTokenisasi[i]) == null){
-                stem = resTokenisasi[i];
-            } else{
-                stem = stemmer.findRootWord(resTokenisasi[i]);
-            }
-            listStemming.add(stem);
-        }
-        return listStemming;
     }
     
     private static ArrayList<String> lemmatisasiSastrawi(ArrayList<String> resTokenisasi, Set<String> kamusKataDasar){
@@ -343,10 +306,10 @@ public class Ta {
         System.out.println("jumlah testing: "+String.valueOf(barisTest.size()));
         
         ArrfFileBuilder arrfFileBuilder = new ArrfFileBuilder();
-        System.out.println("membuat file testing..");
-        arrfFileBuilder.createArffTest(kolom, barisTest);
-        System.out.println("membuat file training..");
-        arrfFileBuilder.createArffTrain(kolom, barisTrain);
+//        System.out.println("membuat file testing..");
+//        arrfFileBuilder.createArffTest(kolom, barisTest);
+//        System.out.println("membuat file training..");
+//        arrfFileBuilder.createArffTrain(kolom, barisTrain);
         System.out.println("membuat file gabungan..");
         arrfFileBuilder.createArff(kolom, baris);
         System.out.println("selesai..");
@@ -376,383 +339,27 @@ public class Ta {
         return model;
     }
     
-    private static NaiveBayes trainingProcessBayes() throws Exception{
-        System.out.println("proses training Bayes..");
-        BufferedReader reader = new BufferedReader(new FileReader("Dataset/dataset fix/data arff/lemma/berita_train_500_lemma.arff"));
-        ArffReader arff = new ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        NaiveBayes model = new NaiveBayes();
-        model.buildClassifier(data);
-        System.out.println("training Bayes selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    private static SMO trainingProcessSVM() throws Exception{
-        System.out.println("proses training SVM..");
-        BufferedReader reader = new BufferedReader(new FileReader("Dataset/dataset fix/data arff/lemma/berita_train_500_lemma.arff"));
-        ArffReader arff = new ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        SMO model = new SMO();
-        model.buildClassifier(data);
-        System.out.println("training SVM selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    private static IBk trainingProcessKNN() throws Exception{
-        System.out.println("proses training KNN..");
-        BufferedReader reader = new BufferedReader(new FileReader("Dataset/dataset fix/data arff/lemma/berita_train_500_lemma.arff"));
-        ArffReader arff = new ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        IBk model = new IBk();
-        model.buildClassifier(data);
-        System.out.println("training KNN selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    private static void predictionJST() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing jst..");
-        MultilayerPerceptron model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelJST();
-        String predString;
-        
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_test_500_lemma.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        List<String> kelas = new ArrayList<>();
-        List<String> prediksi = new ArrayList<>();
-        for (int i=1;i<=200;i++){
-            if (i<=75){
-                kelas.add("hoax");
-            }else{
-                kelas.add("no_hoax");
-            }
-        }
-        for (int j = 0; j < testdata.numInstances(); j++) {
-            Instance newInst = testdata.instance(j);
-            double preNB = model.classifyInstance(newInst);
-            if (preNB < 0.5){
-                predString = "hoax";
-            }else{
-                predString = "no_hoax";
-            }
-            prediksi.add(predString);
-        }
-        
-        double tp = 0;
-        double tn = 0;
-        double fp = 0;
-        double fn = 0;
-        for(int i = 0; i < 200; i++){
-            if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("hoax")){
-                tp++;
-            }else if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("no_hoax")){
-                fn++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("hoax")){
-                fp++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("no_hoax")){
-                tn++;
-            }
-        }
-        
-        System.out.println("");
-        System.out.println("TP: "+String.valueOf(tp));
-        System.out.println("TN: "+String.valueOf(tn));
-        System.out.println("FP: "+String.valueOf(fp));
-        System.out.println("FN: "+String.valueOf(fn));
-        
-        double akurasi = ((tp+tn)/(tp+tn+fp+fn));
-        double presisi = tp/(tp+fp);
-        double recall = tp/(tp+fn);
-        double fmeasure = (2*(recall * presisi))/(recall + presisi);
-        
-        System.out.println("Akurasi: "+String.valueOf(akurasi));
-        System.out.println("Presisi: "+String.valueOf(presisi));
-        System.out.println("Recall: "+String.valueOf(recall));
-        System.out.println("F-Measure: "+String.valueOf(fmeasure));
-    }
-    
-    private static void predictionBayes() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing Bayes..");
-        NaiveBayes model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelBayes();
-        String predString;
-
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_test_500_lemma.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        List<String> kelas = new ArrayList<>();
-        List<String> prediksi = new ArrayList<>();
-        for (int i=1;i<=200;i++){
-                if (i<=75){
-                    kelas.add("hoax");
-                }else{
-                    kelas.add("no_hoax");
-                }
-            }
-        for (int j = 0; j < testdata.numInstances(); j++) {
-            Instance newInst = testdata.instance(j);
-            double preNB = model.classifyInstance(newInst);
-            if (preNB < 0.5){
-                predString = "hoax";
-            }else{
-                predString = "no_hoax";
-            }
-            prediksi.add(predString);
-        }
-        
-        double tp = 0;
-        double tn = 0;
-        double fp = 0;
-        double fn = 0;
-        for(int i = 0; i < 200; i++){
-            if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("hoax")){
-                tp++;
-            }else if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("no_hoax")){
-                fn++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("hoax")){
-                fp++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("no_hoax")){
-                tn++;
-            }
-        }
-        
-        System.out.println("");
-        System.out.println("TP: "+String.valueOf(tp));
-        System.out.println("TN: "+String.valueOf(tn));
-        System.out.println("FP: "+String.valueOf(fp));
-        System.out.println("FN: "+String.valueOf(fn));
-        
-        double akurasi = ((tp+tn)/(tp+tn+fp+fn));
-        double presisi = tp/(tp+fp);
-        double recall = tp/(tp+fn);
-        double fmeasure = (2*(recall * presisi))/(recall + presisi);
-        
-        System.out.println("Akurasi: "+String.valueOf(akurasi));
-        System.out.println("Presisi: "+String.valueOf(presisi));
-        System.out.println("Recall: "+String.valueOf(recall));
-        System.out.println("F-Measure: "+String.valueOf(fmeasure));
-    }
-    
-    private static void predictionSVM() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing svm..");
-        SMO model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelSVM();
-        String predString;
-        
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_test_500_lemma.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        List<String> kelas = new ArrayList<>();
-        List<String> prediksi = new ArrayList<>();
-        for (int i=1;i<=200;i++){
-                if (i<=75){
-                    kelas.add("hoax");
-                }else{
-                    kelas.add("no_hoax");
-                }
-            }
-        for (int j = 0; j < testdata.numInstances(); j++) {
-            Instance newInst = testdata.instance(j);
-            double preNB = model.classifyInstance(newInst);
-            if (preNB < 0.5){
-                predString = "hoax";
-            }else{
-                predString = "no_hoax";
-            }
-            prediksi.add(predString);
-        }
-        
-        double tp = 0;
-        double tn = 0;
-        double fp = 0;
-        double fn = 0;
-        for(int i = 0; i < 200; i++){
-            if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("hoax")){
-                tp++;
-            }else if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("no_hoax")){
-                fn++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("hoax")){
-                fp++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("no_hoax")){
-                tn++;
-            }
-        }
-        
-        System.out.println("");
-        System.out.println("TP: "+String.valueOf(tp));
-        System.out.println("TN: "+String.valueOf(tn));
-        System.out.println("FP: "+String.valueOf(fp));
-        System.out.println("FN: "+String.valueOf(fn));
-        
-        double akurasi = ((tp+tn)/(tp+tn+fp+fn));
-        double presisi = tp/(tp+fp);
-        double recall = tp/(tp+fn);
-        double fmeasure = (2*(recall * presisi))/(recall + presisi);
-        
-        System.out.println("Akurasi: "+String.valueOf(akurasi));
-        System.out.println("Presisi: "+String.valueOf(presisi));
-        System.out.println("Recall: "+String.valueOf(recall));
-        System.out.println("F-Measure: "+String.valueOf(fmeasure));
-    }
-    
-    private static void predictionKNN() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing knn..");
-        IBk model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelKNN();
-        String predString;
-        
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_test_500_lemma.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        List<String> kelas = new ArrayList<>();
-        List<String> prediksi = new ArrayList<>();
-        for (int i=1;i<=200;i++){
-                if (i<=75){
-                    kelas.add("hoax");
-                }else{
-                    kelas.add("no_hoax");
-                }
-            }
-        for (int j = 0; j < testdata.numInstances(); j++) {
-            Instance newInst = testdata.instance(j);
-            double preNB = model.classifyInstance(newInst);
-            if (preNB < 0.5){
-                predString = "hoax";
-            }else{
-                predString = "no_hoax";
-            }
-            prediksi.add(predString);
-        }
-        
-        double tp = 0;
-        double tn = 0;
-        double fp = 0;
-        double fn = 0;
-        for(int i = 0; i < 200; i++){
-            if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("hoax")){
-                tp++;
-            }else if(kelas.get(i).equals("hoax") && prediksi.get(i).equals("no_hoax")){
-                fn++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("hoax")){
-                fp++;
-            }else if(kelas.get(i).equals("no_hoax") && prediksi.get(i).equals("no_hoax")){
-                tn++;
-            }
-        }
-        
-        System.out.println("");
-        System.out.println("TP: "+String.valueOf(tp));
-        System.out.println("TN: "+String.valueOf(tn));
-        System.out.println("FP: "+String.valueOf(fp));
-        System.out.println("FN: "+String.valueOf(fn));
-        
-        double akurasi = ((tp+tn)/(tp+tn+fp+fn));
-        double presisi = tp/(tp+fp);
-        double recall = tp/(tp+fn);
-        double fmeasure = (2*(recall * presisi))/(recall + presisi);
-        
-        System.out.println("Akurasi: "+String.valueOf(akurasi));
-        System.out.println("Presisi: "+String.valueOf(presisi));
-        System.out.println("Recall: "+String.valueOf(recall));
-        System.out.println("F-Measure: "+String.valueOf(fmeasure));
-    }
-    
     private static void crossValidate(int fold) throws Exception{
         System.out.println("Cross Validate..");
         System.out.println("");
         
-        ConverterUtils.DataSource sourceSVM = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
-        Instances testData = sourceSVM.getDataSet();
+        ConverterUtils.DataSource source = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/tanpa lemma/berita_500_tanpa_lemma.arff");
+        Instances testData = source.getDataSet();
         System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
         testData = informationGain(testData);
         System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
         testData.setClassIndex(testData.numAttributes() - 1);
         
-//        SMO modelSVM = new SMO();
-//        PolyKernel polyKernel = new PolyKernel();
-
-//        modelSVM.setKernel(polyKernel);
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("10");
         modelJST.setLearningRate(0.01);
-//        modelJST.setGUI(true);
-        
-//        NaiveBayes modelBayes = new NaiveBayes();
-//        
-//        IBk modelKNN = new IBk();
-//        modelKNN.setKNN(9);
         
         int folds = fold;
         
-//        Evaluation evaluationSVM = new Evaluation(testData);
-//        Evaluation evaluationBayes = new Evaluation(testData);
-//        Evaluation evaluationKNN = new Evaluation(testData);
         Evaluation evaluationJST = new Evaluation(testData);
         
         FileDatabase fileDatabase = new FileDatabase();
-
-//        System.out.println("hasil SVM: ");
-//        evaluationSVM.crossValidateModel(modelSVM, testData, folds, new Random(1));
-//        System.out.println(evaluationSVM.toSummaryString());
-//        System.out.println("Presisi: "+String.valueOf(evaluationSVM.precision(0)*100)+"%");
-//        System.out.println("Recall: "+String.valueOf(evaluationSVM.recall(0)*100)+"%");
-//        System.out.println("F-Measure: "+String.valueOf(evaluationSVM.fMeasure(0)*100)+"%");
-//        System.out.println("");
-//        fileDatabase.saveFileModelSVM(modelSVM);
-//        
-//        System.out.println("hasil Bayes: ");
-//        evaluationBayes.crossValidateModel(modelBayes, testData, folds, new Random(1));
-//        System.out.println(evaluationBayes.toSummaryString());
-//        System.out.println("Presisi: "+String.valueOf(evaluationBayes.precision(0)*100)+"%");
-//        System.out.println("Recall: "+String.valueOf(evaluationBayes.recall(0)*100)+"%");
-//        System.out.println("F-Measure: "+String.valueOf(evaluationBayes.fMeasure(0)*100)+"%");
-//        System.out.println("");
-//        fileDatabase.saveFileModelBayes(modelBayes);
-//        
-//        System.out.println("hasil KNN: ");
-//        evaluationKNN.crossValidateModel(modelKNN, testData, folds, new Random(1));
-//        System.out.println(evaluationKNN.toSummaryString());
-//        System.out.println("Presisi: "+String.valueOf(evaluationKNN.precision(0)*100)+"%");
-//        System.out.println("Recall: "+String.valueOf(evaluationKNN.recall(0)*100)+"%");
-//        System.out.println("F-Measure: "+String.valueOf(evaluationKNN.fMeasure(0)*100)+"%");
-//        System.out.println("");
-//        fileDatabase.saveFileModelKNN(modelKNN);
         
         System.out.println("hasil JST: ");
         evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
