@@ -12,18 +12,27 @@ import IndonesianStemmer.IndonesianStemmer;
 import Utils.SortFilesNumeric;
 import Utils.TFIDFCalculator1;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
@@ -47,6 +56,7 @@ import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
 import weka.classifiers.functions.supportVector.PolyKernel;
 import weka.classifiers.lazy.IBk;
+import weka.core.Attribute;
 import weka.core.Debug.Random;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -347,12 +357,15 @@ public class Ta {
         
         ConverterUtils.DataSource source = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
         Instances testData = source.getDataSet();
-        System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
-        testData = informationGain(testData);
-        System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
         testData.setClassIndex(testData.numAttributes() - 1);
         
-        //saveDataToCsvFile("Dataset/dataset fix/data arff/lemma/information gain/ig_lemma_th_0.19.csv", testData);
+        System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()-1));
+        
+        testData = informationGain(testData);
+        
+        System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()-1));
+        
+//        saveDataToCsvFile("Dataset/dataset fix/data arff/lemma/information gain/ig_lemma_th_0.01.csv", testData);
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("1");
@@ -376,9 +389,19 @@ public class Ta {
     
     private static Instances informationGain(Instances data) throws Exception{
         InfoGainAttributeEval eval = new InfoGainAttributeEval();
+        
+        eval.buildEvaluator(data);
+        
+        Map<Attribute, Double> infoGainScores = new HashMap<>();
+        for (int i = 0; i<data.numAttributes(); i++){
+            infoGainScores.put(data.attribute(i), eval.evaluateAttribute(i));
+        }
+        infoGainScores = sortByValue(infoGainScores);
+        saveHashmapToCsvFile(infoGainScores, "Dataset/dataset fix/data arff/lemma/information gain/ig_result.csv");
+        
         Ranker search = new Ranker();
         
-        search.setOptions(new String[] { "-T", "0.42" });
+        search.setOptions(new String[] { "-T", "0.01" });
         
 	AttributeSelection attSelect = new AttributeSelection();
 	attSelect.setEvaluator(eval);
@@ -392,10 +415,41 @@ public class Ta {
     }
     
     public static void saveDataToCsvFile(String path, Instances data) throws IOException{
-	    System.out.println("\nSaving to file " + path + "...");
-	    CSVSaver saver = new CSVSaver();
-	    saver.setInstances(data);
-	    saver.setFile(new File(path));
-	    saver.writeBatch();
-}
+        System.out.println("Saving to file " + path + "...");
+        CSVSaver saver = new CSVSaver();
+        saver.setInstances(data);
+        saver.setFile(new File(path));
+        saver.writeBatch();
+    }
+    
+    public static void saveHashmapToCsvFile(Map<Attribute, Double> map, String pathFile) throws IOException{
+        String eol = System.getProperty("line.separator");
+        try (Writer writer = new FileWriter(pathFile)) {
+            for (Map.Entry<Attribute, Double> entry : map.entrySet()) {
+                writer.append(String.valueOf(entry.getKey()))
+                        .append(',')
+                        .append(String.valueOf(entry.getValue()))
+                        .append(eol);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        }
+    }
+    
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+        Collections.reverse(list);
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+//            System.out.println("-----------------------------");
+//            System.out.println("attribute: "+entry.getKey());
+//            System.out.println("info gain: "+entry.getValue());
+//            System.out.println("-----------------------------");
+        }
+
+        return result;
+    }
 }
