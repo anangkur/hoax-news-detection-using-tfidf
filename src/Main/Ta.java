@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,6 +52,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SelectedTag;
 import weka.core.converters.ArffLoader.ArffReader;
+import weka.core.converters.CSVSaver;
 import weka.core.converters.ConverterUtils;
 
 /**
@@ -78,15 +80,15 @@ public class Ta {
     private static ArrayList<ArrayList<String>> kamusKata = new ArrayList<>();
     
     public static void main(String[] args) throws IOException, Exception {
-        listStopWord = loadStopWord("Dataset/id.stopwords.02.01.2016.txt");
-        kamusKataDasar = loadKamusKataDasar();
+//        listStopWord = loadStopWord("Dataset/id.stopwords.02.01.2016.txt");
+//        kamusKataDasar = loadKamusKataDasar();
+//        
+//        preProcessingDataTrain("Dataset/dataset fix/Datatrain");
+//        preProcessingDataTest("Dataset/dataset fix/Datatest");   
+//        
+//        hitungTfIdf();
         
-        preProcessingDataTrain("Dataset/dataset fix/Datatrain");
-        preProcessingDataTest("Dataset/dataset fix/Datatest");   
-        
-        hitungTfIdf();
-        
-//        crossValidate(10);
+        crossValidate(10);
     }
     
     public static ArrayList<String> loadStopWord(String namaFile){
@@ -343,17 +345,18 @@ public class Ta {
         System.out.println("Cross Validate..");
         System.out.println("");
         
-        ConverterUtils.DataSource source = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/tanpa lemma/berita_500_tanpa_lemma.arff");
+        ConverterUtils.DataSource source = new ConverterUtils.DataSource("Dataset/dataset fix/data arff/lemma/berita_500_lemma.arff");
         Instances testData = source.getDataSet();
         System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()));
         testData = informationGain(testData);
         System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()));
         testData.setClassIndex(testData.numAttributes() - 1);
         
+        //saveDataToCsvFile("Dataset/dataset fix/data arff/lemma/information gain/ig_lemma_th_0.19.csv", testData);
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
-        modelJST.setHiddenLayers("10");
-        modelJST.setLearningRate(0.01);
+        modelJST.setHiddenLayers("1");
+        modelJST.setLearningRate(0.002);
         
         int folds = fold;
         
@@ -375,7 +378,7 @@ public class Ta {
         InfoGainAttributeEval eval = new InfoGainAttributeEval();
         Ranker search = new Ranker();
         
-        search.setOptions(new String[] { "-T", "0.029" });
+        search.setOptions(new String[] { "-T", "0.42" });
         
 	AttributeSelection attSelect = new AttributeSelection();
 	attSelect.setEvaluator(eval);
@@ -387,4 +390,12 @@ public class Ta {
 	
 	return data;
     }
+    
+    public static void saveDataToCsvFile(String path, Instances data) throws IOException{
+	    System.out.println("\nSaving to file " + path + "...");
+	    CSVSaver saver = new CSVSaver();
+	    saver.setInstances(data);
+	    saver.setFile(new File(path));
+	    saver.writeBatch();
+}
 }
