@@ -369,7 +369,9 @@ public class Ta {
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("1");
-        modelJST.setLearningRate(0.002);
+        modelJST.setLearningRate(0.001);
+        modelJST.setTrainingTime(1000);
+        modelJST.buildClassifier(testData);
         
         int folds = fold;
         

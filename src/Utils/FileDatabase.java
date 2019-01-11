@@ -42,7 +42,7 @@ public class FileDatabase implements Serializable{
     public MultilayerPerceptron loadFileModelJST(){
         MultilayerPerceptron temp=null;
         try{
-            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_tanpa_lemma.txt");
+            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_lemma.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (MultilayerPerceptron) ois.readObject();
         } catch (Exception e) {

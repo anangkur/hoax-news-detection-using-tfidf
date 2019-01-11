@@ -74,8 +74,8 @@ public class ControllerInputBeritaGUI implements ActionListener{
                 
                 File file = new File(inputberitagui.getTxt_nama_file_berita().getText());            
                 
-                model.preProcessingDataTrain("Dataset/Datatrain", listStopWord, kamusKataDasar);
-                model.preProcessingDataTest("Dataset/Datatest", listStopWord, kamusKataDasar);
+                model.preProcessingDataTrain("Dataset/dataset fix/Datatrain", listStopWord, kamusKataDasar);
+                model.preProcessingDataTest("Dataset/dataset fix/Datatest", listStopWord, kamusKataDasar);
                 kamusKata = model.kamusKata;
                 kolom = model.kolom;
                 
@@ -119,14 +119,14 @@ public class ControllerInputBeritaGUI implements ActionListener{
                     hasilTfIdf.add(d.toString());
                 }
                 
-                hasilBayes = model.predictionBayes();
-                System.out.println("hasil bayes: "+hasilBayes);
+//                hasilBayes = model.predictionBayes();
+//                System.out.println("hasil bayes: "+hasilBayes);
                 hasilJST = model.predictionJST();
                 System.out.println("hasil jst: "+hasilJST);
-                hasilKNN = model.predictionKNN();
-                System.out.println("hasil knn: "+hasilKNN);
-                hasilSVM = model.predictionSVM();
-                System.out.println("hasil svm: "+hasilSVM);
+//                hasilKNN = model.predictionKNN();
+//                System.out.println("hasil knn: "+hasilKNN);
+//                hasilSVM = model.predictionSVM();
+//                System.out.println("hasil svm: "+hasilSVM);
                 
                 inputberitagui.dispose();
                 new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf);

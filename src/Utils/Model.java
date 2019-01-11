@@ -384,7 +384,6 @@ public class Model implements Serializable{
         ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
         Instances testdata = source2.getDataSet();
         testdata.setClassIndex(testdata.numAttributes() - 1);
-        
         double preNB = model.classifyInstance(testdata.firstInstance());
 //        System.out.println(String.valueOf(preNB));
         if (preNB < 0.5){
