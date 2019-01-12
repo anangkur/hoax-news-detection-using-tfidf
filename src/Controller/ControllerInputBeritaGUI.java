@@ -129,7 +129,7 @@ public class ControllerInputBeritaGUI implements ActionListener{
 //                System.out.println("hasil svm: "+hasilSVM);
                 
                 inputberitagui.dispose();
-                new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf);
+                new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf, kolom);
             }catch(Exception e){
                 e.printStackTrace();
             }
