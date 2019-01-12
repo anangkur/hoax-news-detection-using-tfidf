@@ -70,12 +70,43 @@ public class ControllerPreProcessing implements ActionListener{
                 arrayTokenisasi[iTokenisasi] = tokenisasi;
                 iTokenisasi++;
             }
+            
             preprocessing.getTxt_berita_asli().setText(listBeritaAsli);
-            preprocessing.getList_hasil().setListData(arrayHasil);
-            preprocessing.getList_lemma().setListData(arrayLemma);
             preprocessing.getTxt_punctuation().setText(listPunctuation);
-            preprocessing.getList_stopword().setListData(arrayStopWord);
-            preprocessing.getList_tokenisasi().setListData(arrayTokenisasi);
+            
+            Object[][] isiTabel = new Object[listTokenisasi.length][5];
+            for (int i = 0; i<listTokenisasi.length; i++){
+                isiTabel[i][0] = i;
+                isiTabel[i][1] = listTokenisasi[i];
+            }
+            
+            for (int i = 0; i<listStopword.size(); i++){
+                isiTabel[i][2] = listStopword.get(i);
+            }
+            
+            for (int i = 0; i<listLemma.size(); i++){
+                isiTabel[i][3] = listLemma.get(i);
+            }
+            
+            for (int i = 0; i<listHasil.size(); i++){
+                isiTabel[i][4] = listHasil.get(i);
+            }
+            
+            String[] titleTable = new String[5];
+            titleTable[0] = "No";
+            titleTable[1] = "Tokenisasi";
+            titleTable[2] = "Stopword";
+            titleTable[3] = "Lemmatisasi";
+            titleTable[4] = "Hasil Preprocessing";
+            
+            preprocessing.getTable_preprocessing().setModel(new javax.swing.table.DefaultTableModel(
+                    isiTabel, titleTable
+            ));
+            
+            preprocessing.getScroll_table_preprocessing().setViewportView(preprocessing.getTable_preprocessing());
+            preprocessing.getContentPane().add(preprocessing.getScroll_table_preprocessing());
+            preprocessing.pack();
+            
         }catch(Exception e){
             e.printStackTrace();
         }

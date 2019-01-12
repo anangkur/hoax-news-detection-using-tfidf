@@ -10,6 +10,7 @@ import View.ViewHasilKlasifikasi;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.lang.Object;
 
 /**
  *
@@ -33,8 +34,9 @@ public class ControllerHasilKlasifikasi implements ActionListener{
     private String hasilKNN;
     
     private ArrayList<String> hasilTfIdf;
+    private ArrayList<String> kolom;
 
-    public ControllerHasilKlasifikasi(Model model, String listBeritaAsli, String listPunctuation, String[] listTokenisasi, ArrayList<String> listStopword, ArrayList<String> listLemma, ArrayList<String> listHasil, String hasilJST, String hasilSVM, String hasilBayes, String hasilKNN, ArrayList<String> hasilTfIdf) {
+    public ControllerHasilKlasifikasi(Model model, String listBeritaAsli, String listPunctuation, String[] listTokenisasi, ArrayList<String> listStopword, ArrayList<String> listLemma, ArrayList<String> listHasil, String hasilJST, String hasilSVM, String hasilBayes, String hasilKNN, ArrayList<String> hasilTfIdf, ArrayList<String> kolom) {
         this.model = model;
         hasilklasifikasi = new ViewHasilKlasifikasi();
         
@@ -56,24 +58,33 @@ public class ControllerHasilKlasifikasi implements ActionListener{
         hasilklasifikasi.addListener(this);
         
         try{
-            String[] arrayTfIdf = new String[1000000];
-            int i = 0;
-            for (String tfIdf:hasilTfIdf){
-                arrayTfIdf[i] = tfIdf;
-                i++;
-            }
-            hasilklasifikasi.getList_hasil_tfidf().setListData(arrayTfIdf);
-            hasilklasifikasi.getTxt_hasil_bayes().setText(hasilBayes);
             hasilklasifikasi.getTxt_hasil_jst().setText(hasilJST);
-            hasilklasifikasi.getTxt_hasil_knn().setText(hasilKNN);
-            hasilklasifikasi.getTxt_hasil_svm().setText(hasilSVM);
+            
+            Object[][] isiTabel = new Object[this.hasilTfIdf.size()][3];
+            
+            for (int i = 0; i<this.hasilTfIdf.size(); i++){
+                System.out.println("i: "+String.valueOf(i));
+                isiTabel[i][0] = i+1;
+                isiTabel[i][1] = kolom.get(i);
+                isiTabel[i][2] = this.hasilTfIdf.get(i);
+            }
+            
+            String[] titletable = new String[3];
+            titletable[0] = "No";
+            titletable[1] = "Kata";
+            titletable[2] = "Tf-Idf";
+            
+            hasilklasifikasi.getTable_tfidf().setModel(new javax.swing.table.DefaultTableModel(
+                    isiTabel, titletable
+            ));
+            
+            hasilklasifikasi.getScroll_table().setViewportView(hasilklasifikasi.getTable_tfidf());
+            hasilklasifikasi.getContentPane().add(hasilklasifikasi.getScroll_table());
+            hasilklasifikasi.pack();
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-    
-    
-    
 
     @Override
     public void actionPerformed(ActionEvent ae) {

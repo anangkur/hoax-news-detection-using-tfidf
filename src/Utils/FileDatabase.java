@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
@@ -42,7 +43,7 @@ public class FileDatabase implements Serializable{
     public MultilayerPerceptron loadFileModelJST(){
         MultilayerPerceptron temp=null;
         try{
-            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_tanpa_lemma.txt");
+            FileInputStream fis = new FileInputStream("Dataset/dataset fix/model/jst/modeljst_hidden_10_rate_0.1_lemma.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (MultilayerPerceptron) ois.readObject();
         } catch (Exception e) {
@@ -138,6 +139,29 @@ public class FileDatabase implements Serializable{
             FileInputStream fis = new FileInputStream(PATH+".txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (String) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
+    
+    public void saveListAttribute(List<String> data, String PATH){
+        try{
+            FileOutputStream fos = new FileOutputStream(PATH+".txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(data);
+            oos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<String> loadListAttribute(String PATH){
+        List<String> temp = null;
+        try{
+            FileInputStream fis = new FileInputStream(PATH+".txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            temp = (List<String>) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }
