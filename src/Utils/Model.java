@@ -13,15 +13,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
@@ -36,15 +41,20 @@ import jsastrawi.morphology.Lemmatizer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import weka.attributeSelection.AttributeSelection;
+import weka.attributeSelection.InfoGainAttributeEval;
+import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.functions.SMO;
 import weka.classifiers.lazy.IBk;
+import weka.core.Attribute;
 import weka.core.Debug;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
+import weka.core.converters.CSVSaver;
 import weka.core.converters.ConverterUtils;
 //import ta.InstancesBuilder;
 
@@ -294,86 +304,6 @@ public class Model implements Serializable{
         return feature;
     }
     
-    public MultilayerPerceptron trainingProcessJST() throws Exception{
-        System.out.println("proses training JST..");
-        BufferedReader reader = new BufferedReader(new FileReader("berita_prediksi_train.arff"));
-        ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        MultilayerPerceptron model = new MultilayerPerceptron();
-        model.buildClassifier(data);
-        System.out.println("training JST selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    public NaiveBayes trainingProcessBayes() throws Exception{
-        System.out.println("proses training Bayes..");
-        BufferedReader reader = new BufferedReader(new FileReader("berita_prediksi_train.arff"));
-        ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        NaiveBayes model = new NaiveBayes();
-        model.buildClassifier(data);
-        System.out.println("training Bayes selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    public SMO trainingProcessSVM() throws Exception{
-        System.out.println("proses training SVM..");
-        BufferedReader reader = new BufferedReader(new FileReader("berita_prediksi_train.arff"));
-        ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        SMO model = new SMO();
-        model.buildClassifier(data);
-        System.out.println("training SVM selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
-    public IBk trainingProcessKNN() throws Exception{
-        System.out.println("proses training KNN..");
-        BufferedReader reader = new BufferedReader(new FileReader("berita_prediksi_train.arff"));
-        ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader, 1000);
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
-        Instance inst;
-        int count = 0;
-        while ((inst = arff.readInstance(data)) != null) {
-          data.add(inst);
-          count++;
-        }
-        System.out.println("jumlah instance training: "+String.valueOf(count));
-        IBk model = new IBk();
-        model.buildClassifier(data);
-        System.out.println("training JST selesai..");
-        System.out.println("-------------------------");
-        return model;
-    }
-    
     public String predictionJST() throws FileNotFoundException, IOException, Exception{
         System.out.println("testing jst..");
         MultilayerPerceptron model;
@@ -384,72 +314,9 @@ public class Model implements Serializable{
         ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
         Instances testdata = source2.getDataSet();
         testdata.setClassIndex(testdata.numAttributes() - 1);
-        double preNB = model.classifyInstance(testdata.firstInstance());
-//        System.out.println(String.valueOf(preNB));
-        if (preNB < 0.5){
-            predString = "tidak hoax";
-        }else{
-            predString = "hoax";
-        }
         
-        return predString;
-    }
-    
-    public String predictionBayes() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing Bayes..");
-        NaiveBayes model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelBayes();
-        String predString;
-
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        double preNB = model.classifyInstance(testdata.firstInstance());
-//        System.out.println(String.valueOf(preNB));
-        if (preNB < 0.5){
-            predString = "tidak hoax";
-        }else{
-            predString = "hoax";
-        }
+//        testdata = informationGain(testdata);
         
-        return predString;
-    }
-    
-    public String predictionSVM() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing svm..");
-        SMO model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelSVM();
-        String predString;
-        
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
-        double preNB = model.classifyInstance(testdata.firstInstance());
-//        System.out.println(String.valueOf(preNB));
-        if (preNB < 0.5){
-            predString = "tidak hoax";
-        }else{
-            predString = "hoax";
-        }
-        
-        return predString;
-    }
-    
-    public String predictionKNN() throws FileNotFoundException, IOException, Exception{
-        System.out.println("testing knn..");
-        IBk model;
-        Utils.FileDatabase fileDatabase = new FileDatabase();
-        model = fileDatabase.loadFileModelKNN();
-        String predString;
-        
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
-        Instances testdata = source2.getDataSet();
-        testdata.setClassIndex(testdata.numAttributes() - 1);
-
         double preNB = model.classifyInstance(testdata.firstInstance());
 //        System.out.println(String.valueOf(preNB));
         if (preNB < 0.5){
@@ -467,5 +334,71 @@ public class Model implements Serializable{
         arrfFileBuilder.createArffPredictTest(kolom, feature);
 //        System.out.println("selesai..");
         System.out.println("-------------------------");
+    }
+    
+    private static Instances informationGain(Instances data) throws Exception{
+        InfoGainAttributeEval eval = new InfoGainAttributeEval();
+        
+        eval.buildEvaluator(data);
+        
+        Map<Attribute, Double> infoGainScores = new HashMap<>();
+        for (int i = 0; i<data.numAttributes(); i++){
+            infoGainScores.put(data.attribute(i), eval.evaluateAttribute(i));
+        }
+        infoGainScores = sortByValue(infoGainScores);
+        saveHashmapToCsvFile(infoGainScores, "Dataset/dataset fix/data arff/lemma/information gain/ig_result.csv");
+        
+        Ranker search = new Ranker();
+        
+        search.setOptions(new String[] { "-T", "0.01" });
+        
+	AttributeSelection attSelect = new AttributeSelection();
+	attSelect.setEvaluator(eval);
+	attSelect.setSearch(search);
+        
+        attSelect.SelectAttributes(data);
+        
+        data = attSelect.reduceDimensionality(data);
+	
+	return data;
+    }
+    
+    public static void saveDataToCsvFile(String path, Instances data) throws IOException{
+        System.out.println("Saving to file " + path + "...");
+        CSVSaver saver = new CSVSaver();
+        saver.setInstances(data);
+        saver.setFile(new File(path));
+        saver.writeBatch();
+    }
+    
+    public static void saveHashmapToCsvFile(Map<Attribute, Double> map, String pathFile) throws IOException{
+        String eol = System.getProperty("line.separator");
+        try (Writer writer = new FileWriter(pathFile)) {
+            for (Map.Entry<Attribute, Double> entry : map.entrySet()) {
+                writer.append(String.valueOf(entry.getKey()))
+                        .append(',')
+                        .append(String.valueOf(entry.getValue()))
+                        .append(eol);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        }
+    }
+    
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        Collections.reverse(list);
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+//            System.out.println("-----------------------------");
+//            System.out.println("attribute: "+entry.getKey());
+//            System.out.println("info gain: "+entry.getValue());
+//            System.out.println("-----------------------------");
+        }
+
+        return result;
     }
 }

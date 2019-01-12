@@ -12,9 +12,12 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static Main.Ta.loadStopWord;
+import Utils.FileDatabase;
+import static Utils.Model.kolom;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -32,6 +35,7 @@ public class ControllerInputBeritaGUI implements ActionListener{
     private Model model;
     
     private ArrayList<String> kolom = new ArrayList<>();
+    private ArrayList<String> kolomInfoGain = new ArrayList<>();
     private ArrayList<Double> feature = new ArrayList<>();
     private ArrayList<ArrayList<Double>> baris = new ArrayList<>();
     private ArrayList<ArrayList<String>> kamusKata = new ArrayList<>();
@@ -110,23 +114,25 @@ public class ControllerInputBeritaGUI implements ActionListener{
                     }
                 }
                 
-                feature = model.hitungTfIdf(kolom, kamusKata);
-                model.createFileTesting(kolom, feature);
+                FileDatabase fileDatabase = new FileDatabase();
+                ArrayList<String> newKolom = new ArrayList<String>();
+                List<String> attribute = fileDatabase.loadListAttribute("Dataset/dataset fix/data arff/lemma/information gain/atribute");
+                for (String kata : kolom){
+                    if (attribute.contains(kata)){
+                        newKolom.add(kata);
+                    }
+                }
+                
+                feature = model.hitungTfIdf(newKolom, kamusKata);
+                model.createFileTesting(newKolom, feature);
                 
                 ArrayList<String> hasilTfIdf = new ArrayList<>();
                 for (Double d : feature ){
-                    // Apply formatting to the string if necessary
                     hasilTfIdf.add(d.toString());
                 }
                 
-//                hasilBayes = model.predictionBayes();
-//                System.out.println("hasil bayes: "+hasilBayes);
                 hasilJST = model.predictionJST();
                 System.out.println("hasil jst: "+hasilJST);
-//                hasilKNN = model.predictionKNN();
-//                System.out.println("hasil knn: "+hasilKNN);
-//                hasilSVM = model.predictionSVM();
-//                System.out.println("hasil svm: "+hasilSVM);
                 
                 inputberitagui.dispose();
                 new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf, kolom);

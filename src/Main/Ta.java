@@ -362,6 +362,7 @@ public class Ta {
         System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()-1));
         
         testData = informationGain(testData);
+        saveSelectedAttribute(testData);
         
         System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()-1));
         
@@ -379,14 +380,14 @@ public class Ta {
         
         FileDatabase fileDatabase = new FileDatabase();
         
-        System.out.println("hasil JST: ");
-        evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
-        System.out.println(evaluationJST.toSummaryString());
-        System.out.println("Presisi: "+String.valueOf(evaluationJST.precision(0)*100)+"%");
-        System.out.println("Recall: "+String.valueOf(evaluationJST.recall(0)*100)+"%");
-        System.out.println("F-Measure: "+String.valueOf(evaluationJST.fMeasure(0)*100)+"%");
-        System.out.println("");
-        fileDatabase.saveFileModelJST(modelJST);
+//        System.out.println("hasil JST: ");
+//        evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
+//        System.out.println(evaluationJST.toSummaryString());
+//        System.out.println("Presisi: "+String.valueOf(evaluationJST.precision(0)*100)+"%");
+//        System.out.println("Recall: "+String.valueOf(evaluationJST.recall(0)*100)+"%");
+//        System.out.println("F-Measure: "+String.valueOf(evaluationJST.fMeasure(0)*100)+"%");
+//        System.out.println("");
+//        fileDatabase.saveFileModelJST(modelJST);
     }
     
     private static Instances informationGain(Instances data) throws Exception{
@@ -453,5 +454,17 @@ public class Ta {
         }
 
         return result;
+    }
+    
+    public static void saveSelectedAttribute(Instances data){
+        ArrayList<String> listAttribute = new ArrayList<>();
+        for (int i = 0; i<data.numAttributes()-1; i++){
+            String result = data.attribute(i).toString();
+            result = result.replace("@attribute ", "");
+            result = result.replace(" numeric", "");
+            listAttribute.add(result);
+        }
+        FileDatabase fileDatabase = new FileDatabase();
+        fileDatabase.saveListAttribute(listAttribute, "Dataset/dataset fix/data arff/lemma/information gain/atribute");
     }
 }

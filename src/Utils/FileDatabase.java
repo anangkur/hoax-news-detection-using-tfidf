@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
@@ -138,6 +139,29 @@ public class FileDatabase implements Serializable{
             FileInputStream fis = new FileInputStream(PATH+".txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             temp = (String) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
+    
+    public void saveListAttribute(List<String> data, String PATH){
+        try{
+            FileOutputStream fos = new FileOutputStream(PATH+".txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(data);
+            oos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<String> loadListAttribute(String PATH){
+        List<String> temp = null;
+        try{
+            FileInputStream fis = new FileInputStream(PATH+".txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            temp = (List<String>) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }

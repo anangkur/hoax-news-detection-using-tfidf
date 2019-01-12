@@ -61,17 +61,19 @@ public class ControllerHasilKlasifikasi implements ActionListener{
             hasilklasifikasi.getTxt_hasil_jst().setText(hasilJST);
             
             System.out.println("hasilTfIdf.size: "+String.valueOf(this.hasilTfIdf.size()));
-            Object[][] isiTabel = new Object[this.hasilTfIdf.size()][2];
+            Object[][] isiTabel = new Object[this.hasilTfIdf.size()][3];
             System.out.println("isiTabel.length: "+String.valueOf(isiTabel.length));
             for (int i = 0; i<this.hasilTfIdf.size(); i++){
                 System.out.println("i: "+String.valueOf(i));
-                isiTabel[i][0] = kolom.get(i);
-                isiTabel[i][1] = this.hasilTfIdf.get(i);
+                isiTabel[i][0] = i+1;
+                isiTabel[i][1] = kolom.get(i);
+                isiTabel[i][2] = this.hasilTfIdf.get(i);
             }
             
-            String[] titletable = new String[2];
-            titletable[0] = "Kata";
-            titletable[1] = "Tf-Idf";
+            String[] titletable = new String[3];
+            titletable[0] = "No";
+            titletable[1] = "Kata";
+            titletable[2] = "Tf-Idf";
             
             hasilklasifikasi.getTable_tfidf().setModel(new javax.swing.table.DefaultTableModel(
                     isiTabel, titletable
@@ -84,9 +86,6 @@ public class ControllerHasilKlasifikasi implements ActionListener{
             e.printStackTrace();
         }
     }
-    
-    
-    
 
     @Override
     public void actionPerformed(ActionEvent ae) {
