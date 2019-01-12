@@ -60,9 +60,8 @@ public class ControllerHasilKlasifikasi implements ActionListener{
         try{
             hasilklasifikasi.getTxt_hasil_jst().setText(hasilJST);
             
-            System.out.println("hasilTfIdf.size: "+String.valueOf(this.hasilTfIdf.size()));
             Object[][] isiTabel = new Object[this.hasilTfIdf.size()][3];
-            System.out.println("isiTabel.length: "+String.valueOf(isiTabel.length));
+            
             for (int i = 0; i<this.hasilTfIdf.size(); i++){
                 System.out.println("i: "+String.valueOf(i));
                 isiTabel[i][0] = i+1;
