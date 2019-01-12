@@ -361,7 +361,7 @@ public class Ta {
         
         System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()-1));
         
-        testData = informationGain(testData);
+        //testData = informationGain(testData);
         
         System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()-1));
         
@@ -369,7 +369,8 @@ public class Ta {
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("1");
-        modelJST.setLearningRate(0.002);
+        modelJST.setLearningRate(0.1);
+        modelJST.setTrainingTime(500);
         
         int folds = fold;
         
@@ -397,11 +398,11 @@ public class Ta {
             infoGainScores.put(data.attribute(i), eval.evaluateAttribute(i));
         }
         infoGainScores = sortByValue(infoGainScores);
-        saveHashmapToCsvFile(infoGainScores, "Dataset/dataset fix/data arff/lemma/information gain/ig_result.csv");
+//        saveHashmapToCsvFile(infoGainScores, "Dataset/dataset fix/data arff/lemma/information gain/ig_result.csv");
         
         Ranker search = new Ranker();
         
-        search.setOptions(new String[] { "-T", "0.01" });
+        search.setOptions(new String[] { "-T", "0.16" });
         
 	AttributeSelection attSelect = new AttributeSelection();
 	attSelect.setEvaluator(eval);
