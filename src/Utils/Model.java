@@ -314,18 +314,18 @@ public class Model implements Serializable{
         ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("berita_prediksi_test.arff");
         Instances testdata = source2.getDataSet();
         testdata.setClassIndex(testdata.numAttributes() - 1);
-        
+        Instances predictedData = new Instances(testdata);
 //        testdata = informationGain(testdata);
         
-        double preNB = model.classifyInstance(testdata.firstInstance());
-//        System.out.println(String.valueOf(preNB));
-        if (preNB < 0.5){
-            predString = "tidak hoax";
-        }else{
-            predString = "hoax";
-        }
-        
-        return predString;
+        double preNB = model.classifyInstance(testdata.instance(0));
+        System.out.println("nilai prediksi: "+String.valueOf(preNB));
+//        if (preNB < 0.5){
+//            predString = "hoax";
+//        }else{
+//            predString = "tidak hoax";
+//        }
+        predictedData.instance(0).setClassValue(preNB);
+        return predictedData.classAttribute().value((int) preNB);
     }
     
     public void createFileTesting(ArrayList<String> kolom, ArrayList<Double> feature) throws Exception{

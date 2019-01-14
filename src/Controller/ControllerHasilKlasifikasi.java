@@ -62,12 +62,14 @@ public class ControllerHasilKlasifikasi implements ActionListener{
             
             Object[][] isiTabel = new Object[this.hasilTfIdf.size()][3];
             
+            int numAtribute = 0;
             for (int i = 0; i<this.hasilTfIdf.size(); i++){
-                System.out.println("i: "+String.valueOf(i));
                 isiTabel[i][0] = i+1;
                 isiTabel[i][1] = kolom.get(i);
                 isiTabel[i][2] = this.hasilTfIdf.get(i);
+                numAtribute = i;
             }
+            System.out.println("jumlah atribut: "+String.valueOf(numAtribute));
             
             String[] titletable = new String[3];
             titletable[0] = "No";

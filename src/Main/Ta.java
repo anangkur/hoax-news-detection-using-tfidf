@@ -362,7 +362,9 @@ public class Ta {
         System.out.println("num atributes 1: "+String.valueOf(testData.numAttributes()-1));
         
         testData = informationGain(testData);
-        saveSelectedAttribute(testData);
+        
+//        jangan dibuka commandnya
+//        saveSelectedAttribute(testData);
         
         System.out.println("num atributes 2: "+String.valueOf(testData.numAttributes()-1));
         
@@ -370,14 +372,9 @@ public class Ta {
         
         MultilayerPerceptron modelJST = new MultilayerPerceptron();
         modelJST.setHiddenLayers("1");
-//<<<<<<< HEAD (136be99) - fix feature
-        modelJST.setLearningRate(0.1);
-        modelJST.setTrainingTime(500);
-//=======
-        modelJST.setLearningRate(0.001);
+        modelJST.setLearningRate(0.01);
         modelJST.setTrainingTime(1000);
         modelJST.buildClassifier(testData);
-//>>>>>>> origin/master (409c3a3) - fix feature
         
         int folds = fold;
         
@@ -385,14 +382,16 @@ public class Ta {
         
         FileDatabase fileDatabase = new FileDatabase();
         
-//        System.out.println("hasil JST: ");
-//        evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
-//        System.out.println(evaluationJST.toSummaryString());
-//        System.out.println("Presisi: "+String.valueOf(evaluationJST.precision(0)*100)+"%");
-//        System.out.println("Recall: "+String.valueOf(evaluationJST.recall(0)*100)+"%");
-//        System.out.println("F-Measure: "+String.valueOf(evaluationJST.fMeasure(0)*100)+"%");
-//        System.out.println("");
-        fileDatabase.saveFileModelJST(modelJST);
+        System.out.println("hasil JST: ");
+        evaluationJST.crossValidateModel(modelJST, testData, folds, new Random(1));
+        System.out.println(evaluationJST.toSummaryString());
+        System.out.println("Presisi: "+String.valueOf(evaluationJST.precision(0)*100)+"%");
+        System.out.println("Recall: "+String.valueOf(evaluationJST.recall(0)*100)+"%");
+        System.out.println("F-Measure: "+String.valueOf(evaluationJST.fMeasure(0)*100)+"%");
+        System.out.println("");
+        
+//        jangan dibuka commentnya
+//        fileDatabase.saveFileModelJST(modelJST);
     }
     
     private static Instances informationGain(Instances data) throws Exception{

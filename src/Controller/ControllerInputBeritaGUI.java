@@ -116,15 +116,18 @@ public class ControllerInputBeritaGUI implements ActionListener{
                 
                 FileDatabase fileDatabase = new FileDatabase();
                 ArrayList<String> newKolom = new ArrayList<String>();
-                List<String> attribute = fileDatabase.loadListAttribute("Dataset/dataset fix/data arff/lemma/information gain/atribute");
-                for (String kata : kolom){
-                    if (attribute.contains(kata)){
-                        newKolom.add(kata);
+                ArrayList<String> attribute = fileDatabase.loadListAttribute("Dataset/dataset fix/data arff/lemma/information gain/atribute");
+                for (String s : listHasil){
+                    if (attribute.contains(s)){
+                        attribute.add(s);
                     }
-                }
+                }   
+                System.out.println("attribut input: "+ attribute.toString());
+                System.out.println("attribut lama: "+kolom.toString());
+                System.out.println("attribut baru: "+listHasil.toString());
                 
-                feature = model.hitungTfIdf(newKolom, kamusKata);
-                model.createFileTesting(newKolom, feature);
+                feature = model.hitungTfIdf(attribute, kamusKata);
+                model.createFileTesting(attribute, feature);
                 
                 ArrayList<String> hasilTfIdf = new ArrayList<>();
                 for (Double d : feature ){
@@ -135,7 +138,7 @@ public class ControllerInputBeritaGUI implements ActionListener{
                 System.out.println("hasil jst: "+hasilJST);
                 
                 inputberitagui.dispose();
-                new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf, kolom);
+                new ControllerHasilKlasifikasi(model, listBeritaAsli, listPunctuation, listTokenisasi, listStopword, listLemma, listHasil, hasilJST, hasilSVM, hasilBayes, hasilKNN, hasilTfIdf, attribute);
             }catch(Exception e){
                 e.printStackTrace();
             }

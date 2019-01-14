@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,12 +157,12 @@ public class FileDatabase implements Serializable{
         }
     }
     
-    public List<String> loadListAttribute(String PATH){
-        List<String> temp = null;
+    public ArrayList<String> loadListAttribute(String PATH){
+        ArrayList<String> temp = null;
         try{
             FileInputStream fis = new FileInputStream(PATH+".txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
-            temp = (List<String>) ois.readObject();
+            temp = (ArrayList<String>) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }
