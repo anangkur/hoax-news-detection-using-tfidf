@@ -33,6 +33,10 @@
 	  this repository is the results of final project research to complete my education at Telkom University
   </p>
 
+![screenshot-1](/screenshots/screenshot-1.png)
+![screenshot-2](/screenshots/screenshot-2.png)
+![screenshot-3](/screenshots/screenshot-3.png)
+
 ## About the Project
 This project is the result of my final project to complete my studies at Telkom University.
 
